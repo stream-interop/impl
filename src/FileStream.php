@@ -7,10 +7,13 @@ use LogicException;
 use RuntimeException;
 use StreamInterop\Interface\ResourceStream;
 use StreamInterop\Interface\SizableStream;
+use StreamInterop\Interface\StreamTypeAliases;
 
 /**
  * Basic functionality for file resources; state-reporting only (no reading,
  * seeking, or writing) with support methods for extended classes.
+ *
+ * @phpstan-import-type stat_array from StreamTypeAliases
  */
 class FileStream implements ResourceStream, SizableStream
 {
@@ -41,25 +44,7 @@ class FileStream implements ResourceStream, SizableStream
      */
     public function getSize() : ?int
     {
-        /**
-         * @see https://www.php.net/manual/en/function.stat.php
-         *
-         * @var array{
-         *     dev:int<0,max>,
-         *     ino:int<0,max>,
-         *     mode:int<0,max>,
-         *     nlink:int<0,max>,
-         *     uid:int<0,max>,
-         *     gid:int<0,max>,
-         *     rdev:int<0,max>,
-         *     size:int<0,max>,
-         *     atime:int<0,max>,
-         *     mtime:int<0,max>,
-         *     ctime:int<0,max>,
-         *     blksize:int<0,max>,
-         *     blocks:int<0,max>,
-         * } $stat
-         */
+        /** @var stat_array $stat */
         $stat = fstat($this->resource);
         return $stat['size'];
     }
