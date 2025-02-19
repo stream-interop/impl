@@ -17,7 +17,7 @@ class ReadableFileTest extends TestCase
         $stream = new ReadableFile('noSuchWrapper://foobar');
         $this->expectException(RuntimeException::CLASS);
         $this->expectExceptionMessage('Could not open rb resource for noSuchWrapper://foobar');
-        $this->assertFalse(is_resource($stream->resource));
+        $stream->read(1);
     }
 
     public function testClose() : void

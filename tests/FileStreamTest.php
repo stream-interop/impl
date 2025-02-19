@@ -37,20 +37,4 @@ class FileStreamTest extends TestCase
         $actual = $this->newFileStream()->getSize();
         $this->assertSame($expect, $actual);
     }
-
-    public function testIsOpen() : void
-    {
-        $stream = $this->newFileStream();
-        $this->assertTrue($stream->isOpen());
-        fclose($stream->resource);
-        $this->assertFalse($stream->isOpen());
-    }
-
-    public function testIsClosed() : void
-    {
-        $stream = $this->newFileStream();
-        $this->assertFalse($stream->isClosed());
-        fclose($stream->resource);
-        $this->assertTrue($stream->isClosed());
-    }
 }

@@ -32,4 +32,20 @@ class WritableFileStreamTest extends TestCase
         $actual = stream_get_contents($stream->resource);
         $this->assertSame($expect, $actual);
     }
+
+    public function testIsOpen() : void
+    {
+        $stream = $this->newWritableFileStream();
+        $this->assertTrue($stream->isOpen());
+        fclose($stream->resource);
+        $this->assertFalse($stream->isOpen());
+    }
+
+    public function testIsClosed() : void
+    {
+        $stream = $this->newWritableFileStream();
+        $this->assertFalse($stream->isClosed());
+        fclose($stream->resource);
+        $this->assertTrue($stream->isClosed());
+    }
 }

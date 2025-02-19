@@ -5,7 +5,6 @@ namespace StreamInterop\Impl;
 
 use LogicException;
 use RuntimeException;
-use StreamInterop\Interface\ResourceStream;
 use StreamInterop\Interface\SizableStream;
 use StreamInterop\Interface\StreamTypeAliases;
 
@@ -15,7 +14,7 @@ use StreamInterop\Interface\StreamTypeAliases;
  *
  * @phpstan-import-type stat_array from StreamTypeAliases
  */
-class FileStream implements ResourceStream, SizableStream
+class FileStream implements SizableStream
 {
     /**
      * @inheritdoc
@@ -27,9 +26,9 @@ class FileStream implements ResourceStream, SizableStream
     }
 
     /**
-     * @inheritdoc
+     * @var resource
      */
-    public protected(set) mixed $resource;
+    protected mixed $resource;
 
     /**
      * @param resource $resource

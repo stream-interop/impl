@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace StreamInterop\Impl;
 
 use StreamInterop\Interface\ReadableStream;
-use StreamInterop\Interface\SeekableStream;
-use StreamInterop\Interface\StringableStream;
 
 /**
  * A read-only stream to consume the resource without seeking or writing;
