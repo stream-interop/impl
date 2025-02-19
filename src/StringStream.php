@@ -29,23 +29,10 @@ final class StringStream implements ReadableStream, SeekableStream, SizableStrea
         }
     }
 
-    /**
-     * @var integer The current byte to be read from the buffer.
-     */
-    private $position;
+    private int $position = 0;
 
-    /**
-     * @var string The in-memory data.
-     */
-    private $data;
-
-    /**
-     * @param string $data The string data to be put into the buffer.
-     */
-    public function __construct(string $data = '')
+    public function __construct(protected string $data = '')
     {
-        $this->position = 0;
-        $this->data = $data;
     }
 
     /**
