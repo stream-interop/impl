@@ -21,9 +21,14 @@ final class StringStream implements ReadableStream, SeekableStream, SizableStrea
     public array $metadata {
         get {
             return [
-                'stream_type' => self::CLASS,
-                'mode' => 'rb+',
+                'timed_out' => false,
+                'blocked' => false,
+                'eof' => $this->eof(),
                 'unread_bytes' => $this->getSize() - $this->tell(),
+                'stream_type' => self::class,
+                'wrapper_type' => '',
+                'wrapper_data' => null,
+                'mode' => 'rb+',
                 'seekable' => true,
             ];
         }

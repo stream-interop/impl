@@ -21,7 +21,7 @@ class FileStream implements SizableStream
      */
     public array $metadata {
         get {
-            return stream_get_meta_data($this->resource);
+            return $this->isOpen() ? stream_get_meta_data($this->resource) : [];
         }
     }
 
@@ -43,6 +43,8 @@ class FileStream implements SizableStream
      */
     public function getSize() : ?int
     {
+        $this->assertIsOpen(__FUNCTION__);
+
         /** @var stat_array $stat */
         $stat = fstat($this->resource);
         return $stat['size'];
@@ -81,30 +83,37 @@ class FileStream implements SizableStream
         );
     }
 
-    protected function intOrThrow(bool|int $result, string $message, false|int $failure = false) : int
+    protected function assertIsOpen(string $function) : void
+    {
+        if (! $this->isOpen()) {
+            throw new RuntimeException("Call to {$function}() failed; stream resource is not open.");
+        }
+    }
+
+    protected function intOrThrow(bool|int $result, string $function, false|int $failure = false) : int
     {
         if ($result === $failure) {
-            throw new RuntimeException($message);
+            throw new RuntimeException("Call to {$function}() failed.");
         }
 
         /** @var int */
         return $result;
     }
 
-    protected function stringOrThrow(false|string $result, string $message) : string
+    protected function stringOrThrow(false|string $result, string $function) : string
     {
         if ($result === false) {
-            throw new RuntimeException($message);
+            throw new RuntimeException("Call to {$function}() failed.");
         }
 
         /** @var string */
         return $result;
     }
 
-    protected function voidOrThrow(mixed $result, string $message, false|int $failure = false) : void
+    protected function voidOrThrow(mixed $result, string $function, false|int $failure = false) : void
     {
         if ($result === $failure) {
-            throw new RuntimeException($message);
+            throw new RuntimeException("Call to {$function}() failed.");
         }
     }
 

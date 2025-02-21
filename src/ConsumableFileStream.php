@@ -22,6 +22,7 @@ class ConsumableFileStream extends FileStream implements ReadableStream
      */
     public function eof() : bool
     {
+        $this->assertIsOpen(__FUNCTION__);
         return feof($this->resource);
     }
 
@@ -30,9 +31,11 @@ class ConsumableFileStream extends FileStream implements ReadableStream
      */
     public function getContents() : string
     {
+        $this->assertIsOpen(__FUNCTION__);
+
         return $this->stringOrThrow(
             stream_get_contents($this->resource),
-            "Could not get contents from stream.",
+            __FUNCTION__,
         );
     }
 
@@ -41,9 +44,11 @@ class ConsumableFileStream extends FileStream implements ReadableStream
      */
     public function read(int $length) : string
     {
+        $this->assertIsOpen(__FUNCTION__);
+
         return $this->stringOrThrow(
             fread($this->resource, $length),
-            "Could not read from stream.",
+            __FUNCTION__,
         );
     }
 }

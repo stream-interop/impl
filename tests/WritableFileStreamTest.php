@@ -18,7 +18,7 @@ class WritableFileStreamTest extends TestCase
     {
         $resource = fopen($this->fakeFile(), 'r');
         assert(is_resource($resource));
-        $this->expectException(LogicException::CLASS);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Resource is not writable.');
         $stream = new WritableFileStream($resource);
     }

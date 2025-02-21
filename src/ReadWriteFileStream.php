@@ -28,9 +28,11 @@ class ReadWriteFileStream extends ReadableFileStream implements ResourceStream, 
      */
     public function write(string|Stringable $data) : int
     {
+        $this->assertIsOpen(__FUNCTION__);
+
         return $this->intOrThrow(
             fwrite($this->resource, (string) $data),
-            "Could not write to stream.",
+            __FUNCTION__,
         );
     }
 }

@@ -33,7 +33,9 @@ class ReadWriteFile extends ReadWriteFileStream implements ClosableStream
      */
     public function close() : void
     {
-        $this->voidOrThrow(fclose($this->resource), "Could not close stream.");
+        if ($this->isOpen()) {
+            $this->voidOrThrow(fclose($this->resource), "Could not close stream.");
+        }
     }
 
     protected function openResource() : void

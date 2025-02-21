@@ -23,6 +23,7 @@ class ReadableFileStream extends ConsumableFileStream implements SeekableStream,
      */
     public function __toString() : string
     {
+        $this->assertIsOpen(__FUNCTION__);
         $this->rewind();
         return (string) $this->getContents();
     }
@@ -32,9 +33,11 @@ class ReadableFileStream extends ConsumableFileStream implements SeekableStream,
      */
     public function rewind() : void
     {
+        $this->assertIsOpen(__FUNCTION__);
+
         $this->voidOrThrow(
             rewind($this->resource),
-            "Could not rewind stream.",
+            __FUNCTION__,
         );
     }
 
@@ -43,9 +46,11 @@ class ReadableFileStream extends ConsumableFileStream implements SeekableStream,
      */
     public function seek(int $offset, int $whence = SEEK_SET) : void
     {
+        $this->assertIsOpen(__FUNCTION__);
+
         $this->voidOrThrow(
             fseek($this->resource, $offset, $whence),
-            "Could not seek on stream.",
+            __FUNCTION__,
         );
     }
 
@@ -56,7 +61,7 @@ class ReadableFileStream extends ConsumableFileStream implements SeekableStream,
     {
         return $this->intOrThrow(
             ftell($this->resource),
-            "Could not tell stream position.",
+            __FUNCTION__,
             -1,
         );
     }
