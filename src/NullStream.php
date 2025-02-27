@@ -63,6 +63,12 @@ final class NullStream extends FileStream implements
         return '';
     }
 
+    public function subString(int $offset, ?int $length = null) : string
+    {
+        $this->assertIsOpen(__FUNCTION__);
+        return '';
+    }
+
     /**
      * @inheritdoc
      */

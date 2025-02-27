@@ -24,8 +24,34 @@ class ReadableFileStream extends ConsumableFileStream implements SeekableStream,
     public function __toString() : string
     {
         $this->assertIsOpen(__FUNCTION__);
+        $initial = $this->tell();
         $this->rewind();
-        return (string) $this->getContents();
+        $string = $this->getContents();
+        $this->seek($initial);
+        return $string;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function subString(int $offset, ?int $length = null) : string
+    {
+        $this->assertIsOpen(__FUNCTION__);
+        $initial = $this->tell();
+
+        if ($offset < 0) {
+            $this->seek($offset, SEEK_END);
+        } else {
+            $this->seek($offset);
+        }
+
+        $string = $this->stringOrThrow(
+            stream_get_contents($this->resource, $length),
+            __FUNCTION__,
+        );
+
+        $this->seek($initial);
+        return $string;
     }
 
     /**
