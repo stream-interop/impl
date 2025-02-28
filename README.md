@@ -14,8 +14,6 @@ $ composer require stream-interop/impl
 
 ### File Streams
 
-These streams operate on an already-opened resource.
-
 #### _ConsumableFileStream_
 
 A unidirectional readable stream; does not afford seeking or writing.
@@ -47,6 +45,27 @@ $stream->seek(7);       // moves to byte 7
 $stream->read(3);       // reads the next 3 bytes
 ```
 
+#### _ReadonlyFileStream_
+
+Identical to the _ReadableFileStream_, but it makes a copy of the original resource to enforce readonly constraints. If the original resource is modified, the _ReadonlyFileStream_ will not reflect those changes.
+
+```php
+// create the origin file
+$file = '/path/to/file';
+file_put_contents($file, 'foo bar');
+
+// initialize a readonly stream from the file;
+// the readonly stream reads the file into memory.
+$stream = new \StreamInterop\Impl\ReadonlyFileStream($file);
+assert((string) $stream === file_get_contents($file));
+
+// change the origin file
+file_put_contents($file, 'baz dib');
+
+// the stream does not reflect the changes
+assert((string) $stream !== file_get_contents($file));
+```
+
 #### _ReadWriteFileStream_
 
 A fully read+write stream that affords seeking and stringability.
@@ -72,6 +91,7 @@ $stream = new \StreamInterop\Impl\WritableFileStream(fopen('/path/to/file', 'wb'
 
 $stream->write('Hello World!');
 ```
+
 
 ### Lazy Ghost File Objects
 

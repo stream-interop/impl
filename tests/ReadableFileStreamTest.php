@@ -35,8 +35,38 @@ class ReadableFileStreamTest extends TestCase
     {
         $stream = $this->newReadableFileStream();
         $stream->seek(8);
+
+        // first time
         $expect = file_get_contents($this->fakeFile());
         $actual = (string) $stream;
+        $this->assertSame($expect, $actual);
+
+        // again
+        $actual = (string) $stream;
+        $this->assertSame($expect, $actual);
+    }
+
+    public function testSubString() : void
+    {
+        $stream = $this->newReadableFileStream();
+        $expect = file_get_contents($this->fakeFile());
+
+        // first time
+        $expect = 'quick';
+        $actual = $stream->subString(4, 5);
+        $this->assertSame($expect, $actual);
+
+        // again
+        $actual = $stream->subString(4, 5);
+        $this->assertSame($expect, $actual);
+
+        // read from ending
+        $expect = 'dog.';
+        $actual = $stream->subString(-5, 4);
+        $this->assertSame($expect, $actual);
+
+        // again
+        $actual = $stream->subString(-5, 4);
         $this->assertSame($expect, $actual);
     }
 
