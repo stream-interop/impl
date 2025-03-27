@@ -1,6 +1,8 @@
 # Change Log
 
-No releases yet.
+## 1.0.0-alpha2
+
+Extended public review.
 
 ## 1.0.0-alpha1
 
