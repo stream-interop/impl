@@ -68,12 +68,14 @@ assert((string) $stream !== file_get_contents($file));
 
 #### _ReadWriteFileStream_
 
-A fully read+write stream that affords seeking and stringability.
+A fully read+write stream that affords seeking, appending, and stringability.
 
 ```php
 $stream = new \StreamInterop\Impl\ReadWriteFileStream(fopen('/path/to/file', 'wb+'));
 
-$stream->write('Hello World!');
+$stream->write('Hello ');
+$stream->rewind();
+$stream->append('World!');
 $stream->rewind();
 $stream->read(2);           // reads "He"
 $stream->read(4);           // reads "llo "

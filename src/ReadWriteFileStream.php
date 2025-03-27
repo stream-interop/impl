@@ -3,14 +3,15 @@ declare(strict_types=1);
 
 namespace StreamInterop\Impl;
 
+use StreamInterop\Interface\AppendableStream;
 use StreamInterop\Interface\ResourceStream;
 use StreamInterop\Interface\WritableStream;
 use Stringable;
 
 /**
- * A read+write file stream.
+ * A read+write+append file stream.
  */
-class ReadWriteFileStream extends ReadableFileStream implements ResourceStream, WritableStream
+class ReadWriteFileStream extends ReadableFileStream implements AppendableStream, ResourceStream, WritableStream
 {
     /**
      * @var resource
@@ -21,6 +22,21 @@ class ReadWriteFileStream extends ReadableFileStream implements ResourceStream, 
     {
         parent::setResource($resource);
         $this->assertWritable();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function append(string|Stringable $data) : int
+    {
+        $this->assertIsOpen(__FUNCTION__);
+
+        $this->seek(0, SEEK_END);
+
+        return $this->intOrThrow(
+            fwrite($this->resource, (string) $data),
+            __FUNCTION__,
+        );
     }
 
     /**
