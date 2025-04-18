@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace StreamInterop\Impl;
 
-use RuntimeException;
+use StreamInterop\Interface\StreamThrowable;
 
 class ReadableFileTest extends TestCase
 {
@@ -15,7 +15,7 @@ class ReadableFileTest extends TestCase
     public function testCannotOpen() : void
     {
         $stream = new ReadableFile('noSuchWrapper://foobar');
-        $this->expectException(RuntimeException::class);
+        $this->expectException(StreamThrowable::class);
         $this->expectExceptionMessage('Could not open rb resource for noSuchWrapper://foobar');
         $stream->read(1);
     }

@@ -46,7 +46,7 @@ class ReadWriteFile extends ReadWriteFileStream implements ClosableStream
         error_reporting($errorLevel);
 
         if (! $resource) {
-            throw new RuntimeException(
+            throw new StreamException(
                 "Could not open rb+ resource for {$this->filename}"
             );
         }

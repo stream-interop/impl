@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace StreamInterop\Impl;
 
-use LogicException;
+use StreamInterop\Interface\StreamThrowable;
 
 class ReadonlyFileStreamTest extends TestCase
 {

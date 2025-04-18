@@ -97,7 +97,7 @@ final class StringStream implements ReadableStream, SeekableStream, SizableStrea
                 break;
 
             default:
-                throw new RuntimeException("Invalid seek operation: {$whence}");
+                throw new StreamException("Invalid seek operation: {$whence}");
         }
     }
 

@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace StreamInterop\Impl;
 
-use LogicException;
-use RuntimeException;
 use StreamInterop\Interface\SizableStream;
 use StreamInterop\Interface\StreamTypeAliases;
 
@@ -78,7 +76,7 @@ class FileStream implements SizableStream
 
         $type = get_debug_type($resource);
 
-        throw new LogicException(
+        throw new StreamException(
             "Expected resource (stream), got {$type}."
         );
     }
@@ -86,14 +84,14 @@ class FileStream implements SizableStream
     protected function assertIsOpen(string $function) : void
     {
         if (! $this->isOpen()) {
-            throw new RuntimeException("Call to {$function}() failed; stream resource is not open.");
+            throw new StreamException("Call to {$function}() failed; stream resource is not open.");
         }
     }
 
     protected function intOrThrow(bool|int $result, string $function, false|int $failure = false) : int
     {
         if ($result === $failure) {
-            throw new RuntimeException("Call to {$function}() failed.");
+            throw new StreamException("Call to {$function}() failed.");
         }
 
         /** @var int */
@@ -103,7 +101,7 @@ class FileStream implements SizableStream
     protected function stringOrThrow(false|string $result, string $function) : string
     {
         if ($result === false) {
-            throw new RuntimeException("Call to {$function}() failed.");
+            throw new StreamException("Call to {$function}() failed.");
         }
 
         /** @var string */
@@ -113,7 +111,7 @@ class FileStream implements SizableStream
     protected function voidOrThrow(mixed $result, string $function, false|int $failure = false) : void
     {
         if ($result === $failure) {
-            throw new RuntimeException("Call to {$function}() failed.");
+            throw new StreamException("Call to {$function}() failed.");
         }
     }
 
@@ -125,7 +123,7 @@ class FileStream implements SizableStream
             || strstr($mode, '+') !== false;
 
         if (! $readable) {
-            throw new LogicException("Resource is not readable.");
+            throw new StreamException("Resource is not readable.");
         }
     }
 
@@ -134,7 +132,7 @@ class FileStream implements SizableStream
         $seekable = $this->metadata['seekable'];
 
         if (! $seekable) {
-            throw new LogicException("Resource is not seekable.");
+            throw new StreamException("Resource is not seekable.");
         }
     }
 
@@ -146,7 +144,7 @@ class FileStream implements SizableStream
             || strstr($mode, '+') !== false;
 
         if (! $writable) {
-            throw new LogicException("Resource is not writable.");
+            throw new StreamException("Resource is not writable.");
         }
     }
 }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace StreamInterop\Impl;
 
-use RuntimeException;
+use StreamInterop\Interface\StreamThrowable;
 use PHPUnit\Framework\TestCase;
 use StreamInterop\Interface\ReadableStream;
 use StreamInterop\Interface\SeekableStream;
@@ -155,7 +155,7 @@ final class StringStreamTest extends TestCase
     public function testThrowsErrorForInvalidSeekOperation(): void
     {
         $stream = new StringStream('hello');
-        $this->expectException(RuntimeException::class);
+        $this->expectException(StreamThrowable::class);
         $this->expectExceptionMessage('Invalid seek operation: 546');
 
         /** @phpstan-ignore-next-line intentionally invalid seek operation */

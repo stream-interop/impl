@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace StreamInterop\Impl;
 
-use LogicException;
-use PHPUnit\Event\Runtime\Runtime;
-use RuntimeException;
+use StreamInterop\Interface\StreamThrowable;
 
 class ConsumableFileStreamTest extends TestCase
 {
@@ -26,7 +24,7 @@ class ConsumableFileStreamTest extends TestCase
     {
         $resource = fopen($this->fakeFile(), 'a');
         assert(is_resource($resource));
-        $this->expectException(LogicException::class);
+        $this->expectException(StreamThrowable::class);
         $this->expectExceptionMessage('Resource is not readable.');
         $stream = new ReadableFileStream($resource);
     }
@@ -39,7 +37,7 @@ class ConsumableFileStreamTest extends TestCase
         $this->assertSame($expect, $actual);
 
         fclose($this->resource);
-        $this->expectException(RuntimeException::class);
+        $this->expectException(StreamThrowable::class);
         $stream->read(1);
     }
 
@@ -63,7 +61,7 @@ class ConsumableFileStreamTest extends TestCase
         $this->assertTrue($stream->eof());
 
         fclose($this->resource);
-        $this->expectException(RuntimeException::class);
+        $this->expectException(StreamThrowable::class);
         $stream->eof();
     }
 }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace StreamInterop\Impl;
 
-use LogicException;
+use StreamInterop\Interface\StreamThrowable;
 
 class FileStreamTest extends TestCase
 {
@@ -18,7 +18,7 @@ class FileStreamTest extends TestCase
     {
         $resource = $this->fopenFakeFile('r');
         fclose($resource);
-        $this->expectException(LogicException::class);
+        $this->expectException(StreamThrowable::class);
         $this->expectExceptionMessage('Expected resource (stream), got resource (closed).');
         $stream = new FileStream($resource);
     }
@@ -26,7 +26,7 @@ class FileStreamTest extends TestCase
     public function testResourceNotValid() : void
     {
         $resource = stream_context_create();
-        $this->expectException(LogicException::class);
+        $this->expectException(StreamThrowable::class);
         $this->expectExceptionMessage('Expected resource (stream), got resource (stream-context).');
         $stream = new FileStream($resource);
     }
