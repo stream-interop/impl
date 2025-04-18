@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.0-beta1
+
+Ready for wide adoption.
+
 ## 1.0.0-alpha2
 
 Extended public review.
