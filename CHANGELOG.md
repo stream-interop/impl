@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.1
+
+Point composer to Stream-Interop 1.0, not 1.x@dev.
+
 ## 1.0.0
 
 Stable release.
